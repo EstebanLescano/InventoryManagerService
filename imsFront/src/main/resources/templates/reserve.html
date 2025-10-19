@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar Stock</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="text-primary mb-4">Reserva de Stock</h1>
+
+    <form th:action="@{/inventory/reserve}" method="post" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label for="storeId" class="form-label">Store ID</label>
+            <input type="text" id="storeId" name="storeId" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="sku" class="form-label">SKU</label>
+            <input type="text" id="sku" name="sku" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Cantidad</label>
+            <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Reservar</button>
+    </form>
+
+    <div th:if="${message}" class="mt-4">
+        <div th:classappend="${success} ? 'alert alert-success' : 'alert alert-danger'">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

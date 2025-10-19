@@ -1,5 +1,9 @@
 package org.lea.imsback.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import org.lea.imsback.services.InventoryService;
@@ -19,14 +23,18 @@ record ReservationRequest(
 
 @RestController
 @RequestMapping("/api/v1/inventory")
+@Tag(name = "Inventario", description = "Operaciones de reserva y gestión de stock")
 public class InventoryController {
 
     @Autowired
     private InventoryService inventoryService;
-    /**
-     * Endpoint reactivo para reservar stock.
-     * Retorna Mono<ResponseEntity> para evitar el bloqueo del hilo (WebFlux).
-     */
+
+    @Operation(summary = "Reserva stock de un SKU en una tienda específica") // Documentación Swagger
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Stock reservado exitosamente. Evento publicado."),
+            @ApiResponse(responseCode = "409", description = "Conflicto. Stock insuficiente o SKU/Tienda no encontrado."),
+            @ApiResponse(responseCode = "400", description = "Petición inválida (ej. cuerpo JSON incorrecto).")
+    })
     @PostMapping("/reserve")
     public Mono<ResponseEntity<String>> reserveStock(@RequestBody ReservationRequest request) {
 

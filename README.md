@@ -130,12 +130,14 @@ Microservicio de Inventario
 GET	/api/v1/inventory/{id}	Obtener stock por producto
 POST	/api/v1/inventory/reserve	Reservar stock
 PUT	/api/v1/inventory/{id}	Actualizar stock
-**Ejemplo de request para reservar stock:**
-{
+
+#### **Ejemplo de request para reservar stock:**
+
+_{
 "storeId": "STORE_A",
 "sku": "A101",
 "quantity": 10
-}
+}_
 
 
 # Se utiliza Spring AI para la gestión avanzada de errores:
@@ -159,10 +161,12 @@ gateway: http://localhost:9092/actuator/health
 ims-back: http://localhost:9090/webjars/swagger-ui/index.html
 ![img_6.png](img_6.png)
 
+
 para poder hacer una peticion por postman al estar conectado con el gateway
 se debe agregar en los headers la autorizacion con el token: test-token-value 
 se realizo de esta forma para no tener que levantar keycloak y asi simplificar el proyecto
 para pruebas locales. Se hizo una simulacion de token valido para el gateway. 
+
 ![img_7.png](img_7.png)
 
 
@@ -170,6 +174,11 @@ para pruebas locales. Se hizo una simulacion de token valido para el gateway.
 ![img_2.png](img_2.png)
 
 ![img_3.png](img_3.png)
+
+
+#### rate-limiting:
+
+![img_8.png](img_8.png)
 
 # Notas finales
 Este proyecto es una base sólida para construir sistemas de gestión distribuidos

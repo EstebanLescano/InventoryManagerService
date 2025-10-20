@@ -8,6 +8,8 @@ import reactor.core.publisher.Mono;
 
 /**
  * Simula el envío de eventos de stock de forma reactiva (no bloqueante).
+ * Verificar la tecnología de mensajería (ej. Kafka, RabbitMQ, o un simulacro en memoria)
+ * y cómo se asegura la entrega del evento.
  */
 @Component
 public class EventPublisher {

@@ -3,6 +3,7 @@ package org.lea.imsback.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -17,6 +18,8 @@ public class Item implements Persistable<Long> {
     private String sku;
     private int quantity;
     private String storeId;
+    @Version
+    private Long version; // Para control de concurrencia optimista
 
     // Constructor de negocio (para nuevos ítems, si los hubiera)
     public Item(String sku, int quantity, String storeId) {

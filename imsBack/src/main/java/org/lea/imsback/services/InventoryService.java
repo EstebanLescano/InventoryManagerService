@@ -6,6 +6,7 @@ import org.lea.imsback.repositories.InventoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -29,7 +30,6 @@ public class InventoryService {
      */
     public Mono<Boolean> tryReserveStock(String storeId, String sku, int quantity) {
 
-        // Comienza la cadena reactiva: buscar el ítem
         return inventoryRepository.findBySkuAndStoreId(sku, storeId)
                 .flatMap(item -> {
                     // Validación: Si hay suficiente stock
@@ -44,12 +44,24 @@ public class InventoryService {
                         return inventoryRepository.save(item)
                                 .flatMap(savedItem -> {
                                     // Publicar el evento de actualización de stock
+                                    //MANEJO DE ERRORES:
+                                    //maneja explícitamente tres escenarios de fallo: Stock Insuficiente (Lógica de Negocio),
+                                    //Error de Persistencia/Evento (Técnico), e Ítem No Encontrado
                                     return eventPublisher.publishStockUpdate(storeId, sku, savedItem.getQuantity())
                                             .thenReturn(true);
                                 })
                                 .doOnSuccess(s -> log.info("RESERVA EXITOSA: SKU {} en {}. Stock restante: {}", sku, storeId, newQuantity))
                                 .onErrorResume(e -> {
+                                    //TOLERANCIA A FALLOS:
                                     // Manejo de errores de la BD/evento. Aquí podrías intentar un rollback lógico.
+                                    //en la secuencia crucial (save y publish). Esto maneja errores de persistencia o de publicación de eventos,
+                                    // logeándolos y devolviendo false al cliente.
+                                    if (e instanceof OptimisticLockingFailureException) {
+                                        //garantizando que el inventario nunca baje de cero debido a la concurrencia
+                                        log.warn("RESERVA FALLIDA por concurrencia (Optimistic Lock) para SKU {} en {}", sku, storeId);
+                                        // Devolver falso para indicar que la reserva no pudo completarse
+                                        return Mono.just(false);
+                                    }
                                     log.error("Error al guardar o publicar evento para SKU {} en {}: {}", sku, storeId, e.getMessage());
                                     // Por simplicidad, se devuelve false ante cualquier error de persistencia/evento.
                                     return Mono.just(false);
@@ -102,7 +114,4 @@ public class InventoryService {
                 .flatMap(existing -> inventoryRepository.delete(existing).thenReturn(true))
                 .switchIfEmpty(Mono.just(false));
     }
-
-
-
 }

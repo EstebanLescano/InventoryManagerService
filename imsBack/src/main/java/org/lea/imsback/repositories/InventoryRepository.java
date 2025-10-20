@@ -9,6 +9,5 @@ import reactor.core.publisher.Mono;
 public interface InventoryRepository extends R2dbcRepository<Item, String> {
     Mono<Item> findBySkuAndStoreId(String sku, String storeId);
     Mono<Void> deleteBySkuAndStoreId(String sku, String storeId);
-    Mono<Long> countByStoreId(String storeId);
 
 }

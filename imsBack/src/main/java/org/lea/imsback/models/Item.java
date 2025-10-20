@@ -14,7 +14,6 @@ public class Item implements Persistable<Long> {
 
     @Id
     private Long id;
-
     private String sku;
     private int quantity;
     private String storeId;

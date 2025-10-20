@@ -1,5 +1,6 @@
 package org.lea.imsback.services;
 
+import org.lea.imsback.dtos.StockUpdateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import reactor.core.publisher.Mono;
  */
 @Component
 public class EventPublisher {
-
     private static final Logger log = LoggerFactory.getLogger(EventPublisher.class);
 
     public Mono<Void> publishStockUpdate(String storeId, String sku, int newQuantity) {

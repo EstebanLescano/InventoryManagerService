@@ -56,7 +56,7 @@ public class InventoryController {
         ReservationRequest request = new ReservationRequest(storeId, sku, quantity);
 
         return webClient.post()
-                .uri("/reserve")
+                .uri("/api/inventory/reserve")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(request)
                 .retrieve()

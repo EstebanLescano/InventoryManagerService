@@ -1,11 +1,13 @@
 package org.lea.imsback.services;
 
 
+import org.lea.imsback.models.Item;
 import org.lea.imsback.repositories.InventoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -64,4 +66,43 @@ public class InventoryService {
                     return Mono.just(false);
                 }));
     }
+
+    public Mono<Boolean> createItem(Item item) {
+        return inventoryRepository.findBySkuAndStoreId(item.getSku(), item.getStoreId())
+                .flatMap(existing -> Mono.just(false)) // Ya existe
+                .switchIfEmpty(
+                        inventoryRepository.save(item)
+                                .thenReturn(true)
+                                .doOnSuccess(s -> log.info("ÍTEM CREADO: {} en {}", item.getSku(), item.getStoreId()))
+                );
+    }
+
+    public Flux<Item> getItemsByStore(String storeId) {
+        return inventoryRepository.findAll()
+                .filter(item -> item.getStoreId().equals(storeId));
+    }
+
+    public Mono<Item> getItemBySkuAndStore(String storeId, String sku) {
+        return inventoryRepository.findBySkuAndStoreId(sku, storeId);
+    }
+
+    public Mono<Boolean> updateItemQuantity(Item item) {
+        return inventoryRepository.findBySkuAndStoreId(item.getSku(), item.getStoreId())
+                .flatMap(existing -> {
+                    existing.setQuantity(item.getQuantity());
+                    return inventoryRepository.save(existing)
+                            .then(eventPublisher.publishStockUpdate(existing.getStoreId(), existing.getSku(), existing.getQuantity()))
+                            .thenReturn(true);
+                })
+                .switchIfEmpty(Mono.just(false));
+    }
+
+    public Mono<Boolean> deleteItem(String storeId, String sku) {
+        return inventoryRepository.findBySkuAndStoreId(sku, storeId)
+                .flatMap(existing -> inventoryRepository.delete(existing).thenReturn(true))
+                .switchIfEmpty(Mono.just(false));
+    }
+
+
+
 }

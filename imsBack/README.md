@@ -55,33 +55,27 @@ Publica un StockUpdateEvent (simulado en log).
 
 Si no hay stock → responde con 409 Conflict.
 
-🧪 Ejemplo de Request
-curl -X POST http://localhost:8080/api/v1/inventory/reserve \
+# 🧪 Como Probar por medio de Swagger UI
+
+Iniciar la aplicación y acceder a:
+curl -X POST http://localhost:8080/webjars/swagger-ui/index.html#/\
 -H "Content-Type: application/json" \
 -d '{
-"storeId": "AR-001",
-"sku": "SKU-123",
+"storeId": "STORE_A",
+"sku": "A101",
 "quantity": 2
 }'
 
 Respuesta exitosa
 Stock reservado. Evento de actualización publicado.
-![img.png](img.png)
+
 
 Respuesta con error
 Reserva fallida. Stock insuficiente o ítem no encontrado.
-![img_1.png](img_1.png)
-🧰 Ejecución
 
-Clonar el repositorio.
-
-Ejecutar:
-
-mvn spring-boot:run
-
-
+🚀 Cómo Ejecutar el Proyecto
 Acceder a:
-http://localhost:8080/api/v1/inventory/reserve
+http://localhost:9090/api/inventory/reserve
 
 🧩 Decisiones Técnicas Clave
 Decisión	Justificación

@@ -1,12 +1,25 @@
 
 # **Proyecto: Sistema de Gestión Distribuida**
 
+# **Se puede descargar de hithub:**
+
+https://github.com/EstebanLescano/InventoryManagerService
+
+
 # **_DESCRIPCION_**
 
-Este proyecto es un sistema de gestión distribuida basado en microservicios siguiendo principios de DDD (Domain-Driven Design).
-El sistema está diseñado con Spring WebFlux para un backend reactivo, un front-end reactivo, 
-y un API Gateway que centraliza la seguridad mediante Keycloak.
-Se incluyen tests unitarios e integrales, documentación Swagger, y un entorno Docker para facilitar el despliegue.
+Este proyecto es un sistema de gestión distribuida basado en microservicios, 
+diseñado siguiendo los principios de Domain-Driven Design (DDD).
+El backend está implementado con Spring WebFlux para un enfoque reactivo, 
+acompañado de un front-end reactivo y un API Gateway que centraliza la seguridad.
+
+Para simplificar el entorno de desarrollo y pruebas, se eliminó la dependencia de servicios
+externos como Keycloak, Kafka y bases de datos adicionales, evitando así la necesidad de levantar
+múltiples instancias y el consumo excesivo de recursos. La implementación se mantiene lo más simple
+y ligera posible, sin perder funcionalidad.
+
+El proyecto incluye tests unitarios e integrales, documentación Swagger, facilitando su despliegue
+y ejecución en cualquier entorno.
 
 # _**DIAGRAMA_** :
 ![img_1.png](img_1.png)
@@ -111,18 +124,34 @@ PUT	/api/v1/inventory/{id}	Actualizar stock
 "quantity": 10
 }
 
-# **_CONFIGURACION DOCKER COMPOSE_**
-
-Keycloak
 
 # Cómo ejecutar
 
-Levantar Keycloak y configurar realm, clientes y roles.
+Levantar el proyecto ImsBack, Gateway y Frontend (uso intellij)
+una vez levantado los tres servicios.
+frontend: http://localhost:9091/inventory/reserve
+![img_4.png](img_4.png)
 
-Configurar las propiedades de Keycloak en cada microservicio (application.properties).
+gateway: http://localhost:9092/actuator/health
+![img_5.png](img_5.png)
 
-Ejecutar los microservicios (backend, gateway).
+ims-back: http://localhost:9090/webjars/swagger-ui/index.html
+![img_6.png](img_6.png)
 
-Levantar el front-end Reactivo.
+para poder hacer una peticion por postman al estar conectado con el gateway
+se debe agregar en los headers la autorizacion con el token: test-token-value 
+se realizo de esta forma para no tener que levantar keycloak y asi simplificar el proyecto
+para pruebas locales. Se hizo una simulacion de token valido para el gateway. 
+![img_7.png](img_7.png)
 
-Acceder a la documentación Swagger en http://localhost:8080/webjars/swagger-ui/index.html#/Inventario/reserveStock
+
+# Funcionamiento
+![img_2.png](img_2.png)
+
+![img_3.png](img_3.png)
+
+# Notas finales
+Este proyecto es una base sólida para construir sistemas de gestión distribuidos
+utilizando microservicios y DDD. Se puede extender fácilmente añadiendo más microserv
+icios, integrando bases de datos reales y servicios externos según las necesidades del negocio.
+¡Gracias por revisar el proyecto!

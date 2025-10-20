@@ -1,6 +1,6 @@
 package org.lea.imsback.services;
 
-import org.lea.imsback.dtos.StockUpdateEvent;
+import org.lea.imsback.models.dtos.StockUpdateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

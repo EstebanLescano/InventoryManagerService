@@ -1,25 +1,25 @@
 # Prompts usados con GenAI (ejemplos)
 
-1) Generar estructura DDD para Java/Spring con maven y JPA:
+1) Prompts mas utilizado:
 ```
-Genera un proyecto Java con Spring Boot y Maven que implemente un sistema de gestión de 
-inventario siguiendo principios DDD (Domain-Driven Design). La estructura del proyecto
- debe incluir las siguientes capas:
-- Domain Layer: Entidades Item y StockUpdateEvent, con lógica de negocio para gestionar stock.
-- Application Layer: Servicio InventoryService con caso de uso para reservar stock.
-- Infrastructure Layer: Repositorio InventoryRepository usando Spring Data JPA para persistencia.
-- API Layer: Controlador REST InventoryController con endpoints para consultar y reservar stock.
-Utiliza H2 como base de datos en memoria y configura JPA
+Tengo hecho un microservicio con java 21 spring boot y programacion reactiva podes mejorar 
+este codigo ?
 ```
 
-2) Implementar reintentos ante OptimisticLockingFailureException:
+2) Quiero realizar un proyecto:
 ```
-Escribe un componente que reintente hasta 3 veces operaciones transaccionales que fallen
- por OptimisticLockingFailureException.
+caracterristica del proyecto lo mas cortas posibles para que no cometa errores mientra el prompts 
+sea mas grande mas errores va a contener la respuesta.
 ```
 
-3) Escribir tests de integración con TestRestTemplate:
+3) Errores de consola:
 ```
-Escribe un test que arranque el contexto y pruebe reservar stock concurrentemente usando
- multiple threads o async tasks.
+Tengo estos errores en mi proyecto podes buscar una solucion o revisar que puede suceder 
+con estos tipos de errores.
+```
+
+4) Mejoras de codigo:
+```
+Tengo este codigo podes mejorarlo? siempre hay que limitar el codigo que le vallas a pasar ya que 
+hay cosas que no se pueden compartir por un tema de plagio
 ```

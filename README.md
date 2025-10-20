@@ -8,18 +8,16 @@ https://github.com/EstebanLescano/InventoryManagerService
 
 # **_DESCRIPCION_**
 
-Este proyecto es un sistema de gestión distribuida basado en microservicios, 
-diseñado siguiendo los principios de Domain-Driven Design (DDD).
-El backend está implementado con Spring WebFlux para un enfoque reactivo, 
-acompañado de un front-end reactivo y un API Gateway que centraliza la seguridad.
+📘 Descripción del Proyecto
 
-Para simplificar el entorno de desarrollo y pruebas, se eliminó la dependencia de servicios
-externos como Keycloak, Kafka y bases de datos adicionales, evitando así la necesidad de levantar
-múltiples instancias y el consumo excesivo de recursos. La implementación se mantiene lo más simple
-y ligera posible, sin perder funcionalidad.
-
-El proyecto incluye tests unitarios e integrales, documentación Swagger, facilitando su despliegue
-y ejecución en cualquier entorno.
+Este proyecto es un sistema de gestión distribuida basado en microservicios, diseñado siguiendo los principios de Domain-Driven Design (DDD).
+El backend está desarrollado con Spring WebFlux, adoptando un enfoque reactivo que mejora la escalabilidad y el manejo
+de concurrencia, acompañado por un front-end reactivo y un API Gateway encargado de centralizar la seguridad.
+Con el objetivo de simplificar el entorno de desarrollo y pruebas, se eliminó la dependencia de servicios externos 
+como Keycloak, Kafka y bases de datos adicionales. De esta forma, se evita levantar múltiples instancias y se reduce el consumo 
+de recursos, manteniendo una implementación ligera y funcional.
+El proyecto incluye tests unitarios e integrales, además de documentación con Swagger, lo que facilita su despliegue, 
+mantenimiento y ejecución en cualquier entorno.
 
 # _**DIAGRAMA_** :
 ![img_1.png](img_1.png)
@@ -28,84 +26,99 @@ y ejecución en cualquier entorno.
 # **_ARQUITECTURA_**
 
 Microservicios Backend:
-
-Separación clara entre domain, service, repository y controller.
-
+Separación clara entre service, models, repository y controller.
 Comunicación reactiva usando Spring WebFlux y WebClient.
 
-Persistencia reactiva con R2DBC (para bases como PostgreSQL).
+Persistencia reactiva con R2DBC (en este caso fue usado una h2 en memoria). Podria usarse con postgresql, mysql, etc.
 
 API Gateway:
-
 Centraliza el enrutamiento a los microservicios.
-
-Protege los endpoints mediante JWT generado por Keycloak.
-
+Protege los endpoints mediante JWT generado por Keycloak. En este caso solo hemos simulado un token valido para pruebas locales.
 Permite balanceo de carga y manejo de rutas.
 
 Front-end Reactivo:
-
 Consume microservicios a través del API Gateway.
-
 Soporta flujos reactivos y UI dinámica.
 
 Seguridad:
-
-Keycloak maneja autenticación y autorización por roles y recursos.
-
+Keycloak maneja autenticación y autorización por roles y recursos (Rbac).
 Roles definidos por microservicio y realm, aplicando RBAC.
 
 Documentación:
-
 Cada servicio expone su documentación Swagger en /swagger-ui.html.
-
 Contenerización: Docker / Docker Compose.
 
 
 # **_TECNOLOGIAS_**
 
 Backend: Java 21, Spring Boot, Spring WebFlux, R2DBC.
-
-Frontend: Reactivo (Spring WebFlux + Thymeleaf o React).
-
-Seguridad: Keycloak (JWT, roles, permisos).
-
+Frontend: Reactivo (Spring WebFlux + Thymeleaf).
+Seguridad: Keycloak (JWT, roles, permisos). Este paso se simulo para pruebas locales.
 Base de datos: H2 para pruebas.
-
 Testing: JUnit 5, Spring Boot Test, unitarios.
-
 Build: Maven.
-
 Documentación API: Swagger / OpenAPI.
+Contenerización: Docker / Docker Compose.(en caso de levantar instancias de keycloak o kafka)
 
-Contenerización: Docker / Docker Compose.
 
 # **_ESTRUCTURA DEL PROYECTO_**
 
-/project-root
-├── backend-service-1
-│   ├── src/main/java
-│   │   ├── controller
-│   │   ├── service
-│   │   ├── repository
-│   │   └── domain
-│   └── resources
-├── backend-service-2
-│   └── ...
-├── frontend
-│   └── ...
-├── api-gateway
-│   └── ...
+/inventory-manager-service
+├── imsBack
+│   ├── src
+│   │   ├── main
+│   │   │   ├── java
+│   │   │   │   └── org.lea.imsback
+│   │   │   │       ├── controllers
+│   │   │   │       ├── services
+│   │   │   │       ├── repositories
+│   │   │   │       └── models
+│   │   │   └── resources
+│   │   │       └── application.properties
+│   │   └── test
+│   ├── pom.xml
+│   └── target/
+│
+├── imsFront
+│   ├── src
+│   │   ├── main
+│   │   │   ├── java
+│   │   │   │   └── org.lea.imsfront
+│   │   │   │       ├── config
+│   │   │   │       │   └── WebClientConfig.java
+│   │   │   │       ├── controllers
+│   │   │   │       │   └── InventoryController.java
+│   │   │   │       ├── models
+│   │   │   │       └── ImsFrontApplication.java
+│   │   │   └── resources
+│   │   │       ├── templates
+│   │   │       │   └── reserve.html
+│   │   │       └── application.properties
+│   │   └── test
+│   ├── pom.xml
+│   └── target/
+│
+├── imsGetaway
+│   ├── src
+│   │   ├── main
+│   │   │   ├── java
+│   │   │   │   └── org.lea.imsgetaway
+│   │   │   │       ├── config
+│   │   │   │       │   ├── JwtDecoder.java
+│   │   │   │       │   └── SecurityConfig.java
+│   │   │   │       ├── filters
+│   │   │   │       ├── routes
+│   │   │   │       └── ImsGetawayApplication.java
+│   │   │   └── resources
+│   │   │       └── application.properties
+│   │   └── test
+│   ├── pom.xml
+│   └── target/
+│
 ├── docker-compose.yml
-└── README.md
-
-
-# **_FLUJO DE AUTENTICACION_**
-
-1- El usuario inicia sesión a través de Keycloak.
-2- Keycloak emite un JWT con roles y permisos.
-3- El API Gateway valida el token y enruta la petición al microservicio correspondiente.
-4- Los microservicios verifican los roles y permisos según RBAC antes de procesar la solicitud.
+├── HELP.md
+├── README.md
+└── DIAGRAMA_IMS.txt
 
 # **_ENDPOINT PRINCIPALES_**
 
@@ -124,6 +137,14 @@ PUT	/api/v1/inventory/{id}	Actualizar stock
 "quantity": 10
 }
 
+
+# Se utiliza Spring AI para la gestión avanzada de errores:
+
+En este endpoint se realizo en el Servicio **tryReserveStock**: El servicio garantiza que solo los errores verdaderamente 
+inesperados (que él no pueda controlar, como un StackOverflowError o un error que no interceptó) lleguen al controlador.
+y en el caso de que llegue al controllador  **reserveStock** El controlador maneja el límite del sistema. Si una excepción logra subir hasta aquí, 
+es un fallo crítico del sistema, y es el lugar ideal para activar herramientas de diagnóstico de alto nivel como la IA, 
+ya que ya ha pasado por todas las defensas internas.
 
 # Cómo ejecutar
 

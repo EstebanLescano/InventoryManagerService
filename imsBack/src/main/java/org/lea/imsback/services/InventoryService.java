@@ -38,13 +38,12 @@ public class InventoryService {
 
                     if (newQuantity >= 0) {
                         item.setQuantity(newQuantity);
-
                         // **Paso 2: Operación atómica (Guardar y Publicar)**
                         // Retorna la cadena de operaciones: guardar -> publicar -> devolver true
                         return inventoryRepository.save(item)
                                 .flatMap(savedItem -> {
                                     // Publicar el evento de actualización de stock
-                                    //MANEJO DE ERRORES:
+                                    //MANEJO DE ERRORES REACTIVO:
                                     //maneja explícitamente tres escenarios de fallo: Stock Insuficiente (Lógica de Negocio),
                                     //Error de Persistencia/Evento (Técnico), e Ítem No Encontrado
                                     return eventPublisher.publishStockUpdate(storeId, sku, savedItem.getQuantity())
@@ -52,7 +51,7 @@ public class InventoryService {
                                 })
                                 .doOnSuccess(s -> log.info("RESERVA EXITOSA: SKU {} en {}. Stock restante: {}", sku, storeId, newQuantity))
                                 .onErrorResume(e -> {
-                                    //TOLERANCIA A FALLOS:
+                                    //TOLERANCIA A FALLOS y MaANEJO DE ERROR REACTIVO:
                                     // Manejo de errores de la BD/evento. Aquí podrías intentar un rollback lógico.
                                     //en la secuencia crucial (save y publish). Esto maneja errores de persistencia o de publicación de eventos,
                                     // logeándolos y devolviendo false al cliente.

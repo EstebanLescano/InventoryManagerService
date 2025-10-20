@@ -1,4 +1,4 @@
-package org.lea.imsback.dtos;
+package org.lea.imsback.models.dtos;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

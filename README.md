@@ -125,11 +125,11 @@ Contenerización: Docker / Docker Compose.(en caso de levantar instancias de key
 Los endpoints aquí son ejemplos; cada servicio tiene su propia documentación Swagger.
 
 Microservicio de Inventario
-Método	Ruta	Descripción
+
+#### Método	Ruta	Descripción
 GET	/api/v1/inventory/{id}	Obtener stock por producto
 POST	/api/v1/inventory/reserve	Reservar stock
 PUT	/api/v1/inventory/{id}	Actualizar stock
-
 **Ejemplo de request para reservar stock:**
 {
 "storeId": "STORE_A",

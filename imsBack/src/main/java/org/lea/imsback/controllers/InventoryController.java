@@ -72,6 +72,7 @@ public class InventoryController {
                         return ResponseEntity.ok("Stock reservado. Evento de actualización publicado.");
                     } else {
                         // 409 Conflict: Falla la reserva por falta de stock
+                        // 429 To Many Request
                         return ResponseEntity.status(HttpStatus.CONFLICT)
                                 .body("Reserva fallida. Stock insuficiente o ítem no encontrado.");
                     }

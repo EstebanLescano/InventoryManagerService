@@ -177,8 +177,10 @@ para pruebas locales. Se hizo una simulacion de token valido para el gateway.
 
 
 #### rate-limiting:
+Se aplica rateLimit a una sola ruta con el fin de demostrar como se hace esta en memoria con h2 
+la otra forma de hacerlo es levantar instancia de redis y configurar dentro del properties los rateLimit
 
-![img_8.png](img_8.png)
+![img_9.png](img_9.png)
 
 # Notas finales
 Este proyecto es una base sólida para construir sistemas de gestión distribuidos

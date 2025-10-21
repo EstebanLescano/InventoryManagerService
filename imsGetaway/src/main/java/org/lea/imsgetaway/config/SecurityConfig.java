@@ -27,7 +27,7 @@ public class SecurityConfig {
                         // D. Permitir Actuator (si lo estás usando)
                         .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers("/api/**").authenticated()
-                        .anyExchange().authenticated()
+                        .anyExchange().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();

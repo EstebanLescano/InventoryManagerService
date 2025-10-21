@@ -60,7 +60,7 @@ public class InventoryService {
                                 .onErrorResume(e -> {
                                     //TOLERANCIA A FALLOS y MaANEJO DE ERROR REACTIVO:
                                     // Manejo de errores de la BD/evento. Aquí podrías intentar un rollback lógico.
-                                    //en la secuencia crucial (save y publish). Esto maneja errores de persistencia o de publicación de eventos,
+                                    //En la secuencia crucial (save y publish). Esto maneja errores de persistencia o de publicación de eventos,
                                     // logeándolos y devolviendo false al cliente.
                                     if (e instanceof OptimisticLockingFailureException) {
                                         //garantizando que el inventario nunca baje de cero debido a la concurrencia

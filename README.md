@@ -12,11 +12,11 @@ https://github.com/EstebanLescano/InventoryManagerService
 
 Este proyecto es un sistema de gestión distribuida basado en microservicios, diseñado siguiendo los principios de Domain-Driven Design (DDD).
 El backend está desarrollado con Spring WebFlux, adoptando un enfoque reactivo que mejora la escalabilidad y el manejo
-de concurrencia, acompañado por un front-end reactivo y un API Gateway encargado de centralizar la seguridad.
+de concurrencia, acompañado por un front-end reactivo y una API Gateway encargado de centralizar la seguridad.
 Con el objetivo de simplificar el entorno de desarrollo y pruebas, se eliminó la dependencia de servicios externos 
-como Keycloak, Kafka y bases de datos adicionales. De esta forma, se evita levantar múltiples instancias y se reduce el consumo 
-de recursos, manteniendo una implementación ligera y funcional.
-El proyecto incluye tests unitarios e integrales, además de documentación con Swagger, lo que facilita su despliegue, 
+como Keycloak, Kafka, Redis y bases de datos adicionales. De esta forma, se evita levantar múltiples instancias y se reduce el consumo 
+de recursos, manteniendo una implementación ligera y funcional a fines de prueba.
+El proyecto incluye tests unitarios en un servicio, además de documentación con Swagger, lo que facilita su despliegue, 
 mantenimiento y ejecución en cualquier entorno.
 
 # _**DIAGRAMA_** :
@@ -34,25 +34,27 @@ Persistencia reactiva con R2DBC (en este caso fue usado una h2 en memoria). Podr
 
 API Gateway:
 Centraliza el enrutamiento a los microservicios.
-Protege los endpoints mediante JWT generado por Keycloak. En este caso solo hemos simulado un token valido para pruebas locales.
+Protege los endpoints mediante JWT generado por Keycloak. En este caso solo hemos simulado un token válido para pruebas locales.
 Permite balanceo de carga y manejo de rutas.
 
 Front-end Reactivo:
 Consume microservicios a través del API Gateway.
 Soporta flujos reactivos y UI dinámica.
+Si bien el front no es funcional solo se realizó con el fin de demostrar la conexion a un front
 
 Seguridad:
 Keycloak maneja autenticación y autorización por roles y recursos (Rbac).
 Roles definidos por microservicio y realm, aplicando RBAC.
+En este cazo solo se realizó una simulacion creando un FakeToken.
 
 Documentación:
 Cada servicio expone su documentación Swagger en /swagger-ui.html.
-Contenerización: Docker / Docker Compose.
+Contenerización: Docker / Docker Compose. No se realizó a fin facilitar pruebas
 
 
 # **_TECNOLOGIAS_**
 
-Backend: Java 21, Spring Boot, Spring WebFlux, R2DBC.
+Backend: Java 21, Spring Boot, Spring AI, Spring WebFlux, R2DBC.
 Frontend: Reactivo (Spring WebFlux + Thymeleaf).
 Seguridad: Keycloak (JWT, roles, permisos). Este paso se simulo para pruebas locales.
 Base de datos: H2 para pruebas.
@@ -195,6 +197,6 @@ la otra forma de hacerlo es levantar instancia de redis y configurar dentro del 
 
 # Notas finales
 Este proyecto es una base sólida para construir sistemas de gestión distribuidos
-utilizando microservicios y DDD. Se puede extender fácilmente añadiendo más microserv
-icios, integrando bases de datos reales y servicios externos según las necesidades del negocio.
+utilizando microservicios y DDD. Se puede extender fácilmente añadiendo más microservicios,
+integrando bases de datos reales y servicios externos según las necesidades del negocio.
 ¡Gracias por revisar el proyecto!

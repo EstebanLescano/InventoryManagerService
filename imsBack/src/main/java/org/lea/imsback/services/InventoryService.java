@@ -29,7 +29,14 @@ public class InventoryService {
      * @return Mono<Boolean> - true si la reserva fue exitosa, false si no hay stock.
      */
     public Mono<Boolean> tryReserveStock(String storeId, String sku, int quantity) {
-
+        // =========================================================================
+        // !!! BLOQUE TEMPORAL PARA FORZAR FALLO Y PROBAR EL DIAGNÓSTICO DE IA !!!
+        if ("FAIL_AI_TEST".equals(sku)) {
+            // Genera un Mono que inmediatamente falla.
+            // ESTA EXCEPCIÓN SERÁ CAPTURADA POR EL CONTROLADOR.
+            return Mono.error(new IllegalStateException("Fallo forzado de conexión a BD para IA."));
+        }
+        // =========================================================================
         return inventoryRepository.findBySkuAndStoreId(sku, storeId)
                 .flatMap(item -> {
                     // Validación: Si hay suficiente stock

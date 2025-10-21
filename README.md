@@ -169,7 +169,7 @@ ims-back: http://localhost:9090/webjars/swagger-ui/index.html
 
 
 Para poder hacer una peticion por postman al estar conectado con el gateway
-se debe agregar en los headers la autorizacion con el token: test-token-value 
+se debe agregar en los headers la autorizacion con el token: **_test-token-value_** 
 se realizó de esta forma para no tener que levantar keycloak y asi simplificar el proyecto
 para pruebas locales. Se hizo una simulacion de token válido para el gateway. 
 

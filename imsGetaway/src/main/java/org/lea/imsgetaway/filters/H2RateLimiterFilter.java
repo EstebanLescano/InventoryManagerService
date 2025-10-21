@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class h2RateLimiterFilter implements WebFilter {
+public class H2RateLimiterFilter implements WebFilter {
     private final Map<String, List<LocalDateTime>> requestLog = new ConcurrentHashMap<>();
     private static final int MAX_REQUESTS = 3;
     private static final Duration WINDOW = Duration.ofSeconds(10);

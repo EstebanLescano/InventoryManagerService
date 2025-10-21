@@ -1,93 +1,105 @@
-<mxfile host="app.diagrams.net" modified="2025-10-21T11:22:38.000Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="g0044j0044o50044i0044p0044u0044r0044s0044t0044q" version="24.4.15" type="diagram">
-  <diagram id="ims_architecture" name="Inventory Manager Service (IMS)">
+<mxfile host="app.diagrams.net" modified="2025-10-21T12:00:00.000Z" agent="Mozilla/5.0" etag="g0044j0044o50044i0044p0044u0044r0044s0044t0044q" version="24.4.15" type="diagram">
+  <diagram id="ims_architecture_v2" name="Inventory Manager Service (IMS)">
     <mxGraphModel dx="1295" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="ims_client" value="Cliente (Navegador/App)&lt;br&gt;&lt;i&gt;(User Interaction)&lt;/i&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        
+        <mxCell id="ims_client" value="Cliente&lt;br&gt;&lt;b&gt;(Web/App UI)&lt;/b&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="10" y="300" width="100" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="ims_gateway" value="imsGetaway&lt;br&gt;&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;&lt;i&gt;(SecurityConfig, JwtDecoder)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+        
+        <mxCell id="ims_gateway" value="imsGateway&lt;br&gt;&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;&lt;i&gt;Route, Security (JWT), Rate Limit&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="180" y="320" width="140" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="ims_front" value="imsFront&lt;br&gt;&lt;b&gt;Microservicio Frontend/BFF&lt;/b&gt;&lt;br&gt;&lt;i&gt;(InventoryController, WebClientConfig)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-          <mxGeometry x="390" y="240" width="160" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="ims_back" value="imsBack&lt;br&gt;&lt;b&gt;Microservicio Backend (API)&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Controllers, Services, Repositories)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="630" y="390" width="160" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="ims_db" value="Base de Datos&lt;br&gt;&lt;i&gt;(PostgreSQL/MySQL)&lt;/i&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="850" y="370" width="80" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="ims_docker" value="docker-compose.yml&lt;br&gt;&lt;i&gt;(Orquestación/Despliegue)&lt;/i&gt;" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="140" height="80" as="geometry" />
+        
+        <mxCell id="ims_front" value="imsFront&lt;br&gt;&lt;b&gt;Backend for Frontend (BFF)&lt;/b&gt;&lt;br&gt;&lt;i&gt;UI Data Aggregation (Low Latency)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="400" y="240" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <mxCell id="ims_flow_1" value="1. Petición HTTP" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="ims_client" target="ims_gateway">
+        <mxCell id="ims_back" value="imsBack&lt;br&gt;&lt;b&gt;Inventory Core Service&lt;/b&gt;&lt;br&gt;&lt;i&gt;Stock Logic, Consistency Control&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="630" y="390" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ims_db" value="Data Store&lt;br&gt;&lt;b&gt;(Local JSON/CSV Prototype)&lt;/b&gt;&lt;br&gt;&lt;i&gt;Persistence Layer&lt;/i&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="850" y="370" width="80" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ims_docker" value="Docker-Compose&lt;br&gt;&lt;i&gt;(Orchestration/Deployment)&lt;/i&gt;" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ims_flow_1" value="1. HTTP Request (GET /inventory)" style="endArrow=classic;html=1;" edge="1" parent="1" source="ims_client" target="ims_gateway">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="110" y="360" as="sourcePoint" />
             <mxPoint x="180" y="360" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_flow_2" value="2. Validación JWT/Rutas" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="ims_gateway" target="ims_front">
+        
+        <mxCell id="ims_flow_2" value="2. Route to BFF" style="endArrow=classic;html=1;" edge="1" parent="1" source="ims_gateway" target="ims_front">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="320" y="360" as="sourcePoint" />
-            <mxPoint x="390" y="280" as="targetPoint" />
+            <mxPoint x="400" y="280" as="targetPoint" />
             <Array as="points">
               <mxPoint x="360" y="360" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_flow_3" value="3. WebClient (Petición interna)" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ims_front" target="ims_back">
+        
+        <mxCell id="ims_flow_3" value="3. Internal Request to Core Service" style="endArrow=classic;html=1;" edge="1" parent="1" source="ims_front" target="ims_back">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="550" y="280" as="sourcePoint" />
+            <mxPoint x="560" y="280" as="sourcePoint" />
             <mxPoint x="630" y="430" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="590" y="280" />
-              <mxPoint x="590" y="430" />
+              <mxPoint x="600" y="280" />
+              <mxPoint x="600" y="430" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_flow_4" value="4. Consulta a DB" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ims_back" target="ims_db">
+        
+        <mxCell id="ims_flow_4" value="4. Data Access (Consistency Check/Update)" style="endArrow=classic;html=1;" edge="1" parent="1" source="ims_back" target="ims_db">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="790" y="430" as="sourcePoint" />
             <mxPoint x="850" y="430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        
-        <mxCell id="ims_flow_5" value="5. Respuesta (datos de inventario)" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="ims_db" target="ims_back">
+
+        <mxCell id="ims_flow_5" value="5. DB Response" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="ims_db" target="ims_back">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="850" y="460" as="sourcePoint" />
             <mxPoint x="790" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_flow_6" value="6. Renderiza HTML/Responde" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="ims_back" target="ims_front">
+        
+        <mxCell id="ims_flow_6" value="6. Core Response to BFF" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="ims_back" target="ims_front">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="630" y="460" as="sourcePoint" />
             <mxPoint x="560" y="320" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="590" y="460" />
-              <mxPoint x="590" y="320" />
+              <mxPoint x="600" y="460" />
+              <mxPoint x="600" y="320" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_flow_7" value="7. Respuesta a Gateway" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="ims_front" target="ims_gateway">
+        
+        <mxCell id="ims_flow_7" value="7. Aggregate Response" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="ims_front" target="ims_gateway">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="390" y="320" as="sourcePoint" />
+            <mxPoint x="400" y="320" as="sourcePoint" />
             <mxPoint x="320" y="360" as="targetPoint" />
             <Array as="points">
               <mxPoint x="360" y="320" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_flow_8" value="8. Respuesta final al Cliente" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="ims_gateway" target="ims_client">
+        
+        <mxCell id="ims_flow_8" value="8. Final HTTP Response" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="ims_gateway" target="ims_client">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="180" y="390" as="sourcePoint" />
             <mxPoint x="110" y="390" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        
-        <mxCell id="ims_orchestration_1" value="Orquestación de todos los servicios" style="endArrow=none;html=1;dashed=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ims_docker" target="ims_gateway">
+
+        <mxCell id="ims_orchestration_1" value="Service Orchestration" style="endArrow=none;html=1;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="ims_docker" target="ims_gateway">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="110" y="120" as="sourcePoint" />
             <mxPoint x="250" y="320" as="targetPoint" />
@@ -96,16 +108,18 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_orchestration_2" value="" style="endArrow=none;html=1;dashed=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ims_docker" target="ims_front">
+        
+        <mxCell id="ims_orchestration_2" value="" style="endArrow=none;html=1;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="ims_docker" target="ims_front">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="110" y="120" as="sourcePoint" />
             <mxPoint x="470" y="240" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="470" y="120" />
+              <mxPoint x="480" y="120" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ims_orchestration_3" value="" style="endArrow=none;html=1;dashed=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ims_docker" target="ims_back">
+        
+        <mxCell id="ims_orchestration_3" value="" style="endArrow=none;html=1;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="ims_docker" target="ims_back">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="110" y="120" as="sourcePoint" />
             <mxPoint x="710" y="390" as="targetPoint" />

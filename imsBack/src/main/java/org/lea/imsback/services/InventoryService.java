@@ -89,10 +89,12 @@ public class InventoryService {
         return inventoryRepository.findBySkuAndStoreId(item.getSku(), item.getStoreId())
                 .flatMap(existing -> Mono.just(false)) // Ya existe
                 .switchIfEmpty(
-                        inventoryRepository.save(item)
+                        Mono.defer(() -> inventoryRepository.save(item) // Use Mono.defer for lazy execution
                                 .thenReturn(true)
-                                .doOnSuccess(s -> log.info("ÍTEM CREADO: {} en {}", item.getSku(), item.getStoreId()))
-                );
+                                .doOnSuccess(s -> log.info("..."))
+                        )
+                )
+                .cast(Boolean.class);
     }
 
     public Flux<Item> getItemsByStore(String storeId) {

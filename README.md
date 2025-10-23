@@ -1,5 +1,5 @@
 
-# **Proyecto: Sistema de Gestión Distribuida**
+# **Proyecto: Inventory Manage Service**
 
 # **Se puede descargar de hithub:**
 

@@ -127,9 +127,12 @@ Los endpoints aquí son ejemplos; cada servicio tiene su propia documentación S
 Microservicio de Inventario
 
 #### Método	Ruta	Descripción
-GET	/api/v1/inventory/{id}	Obtener stock por producto
-POST	/api/v1/inventory/reserve	Reservar stock
-PUT	/api/v1/inventory/{id}	Actualizar stock
+POST	/api/inventory/reserve	Reservar stock
+POST /api/inventory/create 
+GET /store/{storeId}
+GET	/api/inventory/store{storeId}/sku/{sku}	
+PATCH	/api/inventory/update	Actualizar stock
+DELETE /delete/{storeId}/{sku}
 **Ejemplo de request para reservar stock:**
 {
 "storeId": "STORE_A",

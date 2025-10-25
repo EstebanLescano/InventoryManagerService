@@ -154,27 +154,25 @@ ya que ya ha pasado por todas las defensas internas.
 Levantar el proyecto ImsBack, Gateway y Frontend (uso intellij)
 una vez levantado los tres servicios.
 frontend: http://localhost:9091/inventory/reserve
-![img_4.png](img_4.png)
+![img_Front.png](ImgCapture/img_Front.png)
 
 gateway: http://localhost:9092/actuator/health
-![img_5.png](img_5.png)
+![img_actuator.png](ImgCapture/img_actuator.png)
 
 ims-back: http://localhost:9090/webjars/swagger-ui/index.html
-![img_6.png](img_6.png)
+![img_swagger.png](ImgCapture/img_swagger.png)
 
 para poder hacer una peticion por postman al estar conectado con el gateway
 se debe agregar en los headers la autorizacion con el token: test-token-value 
 se realizo de esta forma para no tener que levantar keycloak y asi simplificar el proyecto
 para pruebas locales. Se hizo una simulacion de token valido para el gateway. 
-![img_swagger.png](ImgCapture/img_swagger.png)
+
 
 
 # Funcionamiento
 ![imagewithtoken.png](ImgCapture/imagewithtoken.png)
 
 ![store200.png](ImgCapture/store200.png)
-
-![img_actuator.png](ImgCapture/img_actuator.png)
 
 ![img_fallo_AI.png](ImgCapture/img_fallo_AI.png)
 

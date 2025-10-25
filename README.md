@@ -20,7 +20,7 @@ El proyecto incluye tests unitarios e integrales, además de documentación con 
 mantenimiento y ejecución en cualquier entorno.
 
 # _**DIAGRAMA_** :
-![img_1.png](img_1.png)
+![diagram.png](ImgCapture/diagram.png)
 
 
 # **_ARQUITECTURA_**
@@ -163,13 +163,19 @@ para poder hacer una peticion por postman al estar conectado con el gateway
 se debe agregar en los headers la autorizacion con el token: test-token-value 
 se realizo de esta forma para no tener que levantar keycloak y asi simplificar el proyecto
 para pruebas locales. Se hizo una simulacion de token valido para el gateway. 
-![img_7.png](img_7.png)
+![img_swagger.png](ImgCapture/img_swagger.png)
 
 
 # Funcionamiento
-![img_2.png](img_2.png)
+![imagewithtoken.png](ImgCapture/imagewithtoken.png)
 
-![img_3.png](img_3.png)
+![store200.png](ImgCapture/store200.png)
+
+![img_actuator.png](ImgCapture/img_actuator.png)
+
+![img_fallo_AI.png](ImgCapture/img_fallo_AI.png)
+
+![rateLimit.png](ImgCapture/rateLimit.png)
 
 # Notas finales
 Este proyecto es una base sólida para construir sistemas de gestión distribuidos

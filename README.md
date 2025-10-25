@@ -179,7 +179,10 @@ para pruebas locales. Se hizo una simulacion de token valido para el gateway.
 ![rateLimit.png](ImgCapture/rateLimit.png)
 
 # Notas finales
-Este proyecto es una base sólida para construir sistemas de gestión distribuidos
-utilizando microservicios y DDD. Se puede extender fácilmente añadiendo más microserv
-icios, integrando bases de datos reales y servicios externos según las necesidades del negocio.
+Este proyecto sienta una base robusta y escalable para la construcción de sistemas 
+de gestión distribuidos, aplicando eficazmente microservicios y los principios 
+de Domain-Driven Design (DDD). Su arquitectura permite una fácil extensibilidad,
+facilitando la integración de nuevos microservicios, bases de datos persistentes
+y servicios externos para alinearse con futuras necesidades de negocio.
+
 ¡Gracias por revisar el proyecto!

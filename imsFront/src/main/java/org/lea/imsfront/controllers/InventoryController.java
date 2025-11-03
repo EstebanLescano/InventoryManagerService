@@ -23,10 +23,10 @@ public class InventoryController {
     public InventoryController(WebClient webClient) {
         this.webClient = webClient;
     }
-    @GetMapping("/reserve")
+
+    @GetMapping({"/", "/reserve"})
     public String showForm() {
-        // http://localhost:8081/inventory/reserve (GET) -> Carga el formulario
-        return "reserve";
+        return "reserve"; // http://localhost:9092/inventory/reserve (GET) -> Carga el formulario
     }
 
     @PostMapping("/reserve")

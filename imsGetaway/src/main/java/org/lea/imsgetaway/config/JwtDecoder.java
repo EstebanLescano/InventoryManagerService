@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.security.oauth2.jwt.BadJwtException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import reactor.core.publisher.Mono;

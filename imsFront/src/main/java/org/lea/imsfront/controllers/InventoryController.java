@@ -31,17 +31,27 @@ public class InventoryController {
 
     @PostMapping("/reserve")
     public Mono<String> reserveStock(
-            @RequestParam MultiValueMap<String, String> formData,
+            // Recibe los campos individualmente y por su nombre (el nombre del 'name' en el input)
+            @RequestParam("storeId") String storeId,
+            @RequestParam("sku") String sku,
+            // Usamos Integer para manejar nulos de forma más segura antes de la validación
+            @RequestParam("quantity") String quantityStr,
             Model model) {
-        // Extraemos los valores del formulario
-        String storeId = formData.getFirst("storeId");
-        String sku = formData.getFirst("sku");
-        // Aseguramos la conversión a int, con manejo básico de nulos
-        int quantity = Optional.ofNullable(formData.getFirst("quantity"))
-                .filter(s -> !s.isEmpty())
-                .map(Integer::parseInt)
-                .orElse(0);
 
+        int quantity = 0;
+
+        // 1. Manejo y Conversión Segura de Quantity
+        try {
+            if (quantityStr != null && !quantityStr.trim().isEmpty()) {
+                quantity = Integer.parseInt(quantityStr.trim());
+            }
+        } catch (NumberFormatException e) {
+            log.error("Formato de cantidad inválido: {}", quantityStr);
+            String errorMessage = "Error: La cantidad debe ser un número entero válido.";
+            model.addAttribute("message", errorMessage);
+            model.addAttribute("success", false);
+            return Mono.just("reserve");
+        }
         // Verificamos si los campos requeridos están realmente vacíos
         if (storeId == null || storeId.isEmpty() || sku == null || sku.isEmpty() || quantity <= 0) {
             String errorMessage = "Faltan campos requeridos o la cantidad es inválida.";
@@ -77,7 +87,7 @@ public class InventoryController {
                 .map(response -> {
                     model.addAttribute("message", "Error en la reserva: " + response);
                     model.addAttribute("success", true);
-                    return "reserve";
+                    return "redirect:/inventory/reserve";
                 })
                 .onErrorResume(error -> {
                     // Loguea la excepción (fallo de conexión, timeout, o la excepción lanzada en onStatus)

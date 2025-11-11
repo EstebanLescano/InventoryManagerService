@@ -58,7 +58,7 @@ public class InventoryService {
                                 })
                                 .doOnSuccess(s -> log.info("RESERVA EXITOSA: SKU {} en {}. Stock restante: {}", sku, storeId, newQuantity))
                                 .onErrorResume(e -> {
-                                    //TOLERANCIA A FALLOS y MaANEJO DE ERROR REACTIVO:
+                                    //TOLERANCIA A FALLOS y MANEJO DE ERROR REACTIVO:
                                     // Manejo de errores de la BD/evento. Aquí podrías intentar un rollback lógico.
                                     //En la secuencia crucial (save y publish). Esto maneja errores de persistencia o de publicación de eventos,
                                     // logeándolos y devolviendo false al cliente.
@@ -78,6 +78,7 @@ public class InventoryService {
                         return Mono.just(false);
                     }
                 })
+                //este es el que hace posible el fallback cuando no se encuentra el ítem
                 .switchIfEmpty(Mono.defer(() -> {
                     // Ítem no encontrado
                     log.warn("RESERVA FALLIDA: Ítem no encontrado: SKU {} en {}", sku, storeId);
@@ -103,6 +104,9 @@ public class InventoryService {
     }
 
     public Mono<Item> getItemBySkuAndStore(String storeId, String sku) {
+        /* return inventoryRepository.findAll()
+                .filter(item -> item.getStoreId().equals(storeId) && item.getSku().equals(sku))
+                .next(); */
         return inventoryRepository.findBySkuAndStoreId(sku, storeId);
     }
 

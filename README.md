@@ -159,8 +159,10 @@ frontend: http://localhost:9091/inventory/reserve
 gateway: http://localhost:9092/actuator/health
 ![img_actuator.png](ImgCapture/img_actuator.png)
 
-ims-back: http://localhost:9090/webjars/swagger-ui/index.html
+ims-back: http://localhost:9090/webjars/swagger-ui/index.html#/Inventario/reserveStock
 ![img_swagger.png](ImgCapture/img_swagger.png)
+
+ims-back pasando por el Gateway: http://localhost:9092/webjars/swagger-ui/index.html#/Inventario/reserveStock
 
 para poder hacer una peticion por postman al estar conectado con el gateway
 se debe agregar en los headers la autorizacion con el token: test-token-value 

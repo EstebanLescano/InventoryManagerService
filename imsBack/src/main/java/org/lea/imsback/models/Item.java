@@ -8,9 +8,8 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@NoArgsConstructor // Necesario para R2DBC
+@NoArgsConstructor
 @Table("item")
-// Implementar Persistable<Long>
 public class Item implements Persistable<Long> {
 
     @Id

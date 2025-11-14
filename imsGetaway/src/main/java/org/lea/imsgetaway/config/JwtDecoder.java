@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.oauth2.jwt.BadJwtException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import reactor.core.publisher.Mono;
@@ -16,24 +17,15 @@ import reactor.core.publisher.Mono;
  * las rutas protegidas sean accesibles con cualquier token Bearer.
  */
 public class JwtDecoder implements ReactiveJwtDecoder {
-    private static final String FAKE_TOKEN_VALUE = "test-token-value";
     private static final String FAKE_USERNAME = "fakeUser@gateway.com";
 
     @Override
     public Mono<Jwt> decode(String token) {
-        // Determina el token a usar. Si el token que llega es nulo/vacío,
-        // usamos el valor de prueba para evitar que Spring Security lo rechace por formato.
-        final String tokenToUse = (token == null || token.trim().isEmpty())
-                ? FAKE_TOKEN_VALUE
-                : token;
+        String actualToken = (token != null) ? token.replace("Bearer", "").trim() : null;
 
-        // Si realmente quieres forzar el 401 si no hay token (comportamiento habitual),
-        // usa el siguiente bloque (comentado si quieres que el fallback funcione):
-        /*
-        if (token == null || token.trim().isEmpty()) {
+        if (actualToken == null || actualToken.trim().isEmpty()) {
             return Mono.error(new BadJwtException("Token nulo o vacío."));
         }
-        */
 
         // 1. Definir los headers y claims (cargas útiles) del JWT
         Map<String, Object> headers = Collections.singletonMap("alg", "none");
@@ -47,13 +39,13 @@ public class JwtDecoder implements ReactiveJwtDecoder {
 
         // 3. Crear el objeto Jwt (el JWT real que Spring Security procesará)
         Jwt jwt = new Jwt(
-                tokenToUse,               // El token original (cualquier valor)
-                Instant.now(),       // emitido en
+                actualToken,               // El token que llegó (ej: "test-token-value")
+                Instant.now(),             // emitido en
                 Instant.now().plusSeconds(36000), // expira en
                 headers,
                 claims
         );
 
-        return Mono.just(jwt);
+        return Mono.just(jwt); // Ahora sí, 'jwt' existe y es devuelto.
     }
 }

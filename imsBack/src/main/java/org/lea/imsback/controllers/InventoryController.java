@@ -3,6 +3,7 @@ package org.lea.imsback.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.lea.imsback.models.dtos.ReservationRequest;
@@ -18,12 +19,13 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/inventario")
 @Tag(
         name = "Inventario",
         description = "Controlador Reactivo que gestiona las operaciones CRUD y de"+
                 " reserva de stock del sistema de inventario distribuido."
 )
+@SecurityRequirement(name = "bearerAuth")
 public class InventoryController {
     private final InventoryService inventoryService;
     private final ErrorDignosisService errorDignosisService;
@@ -46,7 +48,7 @@ public class InventoryController {
             @ApiResponse(responseCode = "409", description = "Conflicto. Stock insuficiente o SKU/Tienda no encontrado."),
             @ApiResponse(responseCode = "400", description = "Petición inválida (ej. cuerpo JSON incorrecto).")
     })
-
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/reserve")
     public Mono<ResponseEntity<String>> reserveStock(@Valid @RequestBody ReservationRequest request) {
         return inventoryService.tryReserveStock(request.storeId(), request.sku(), request.quantity())
